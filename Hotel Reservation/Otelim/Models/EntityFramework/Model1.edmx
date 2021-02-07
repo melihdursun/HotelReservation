@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OtelDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Müşteri">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tc_no" Type="int" Nullable="false" />
+          <Property Name="isim" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="soyisim" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tel_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Oda">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipi" Type="int" Nullable="false" />
+          <Property Name="manzara" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="sigaraicilme" Type="bit" />
+          <Property Name="fiyat" Type="int" Nullable="false" />
+          <Property Name="odano" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rezervasyonlar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="odaid" Type="int" Nullable="false" />
+          <Property Name="musteriid" Type="int" Nullable="false" />
+          <Property Name="giristarihi" Type="date" Nullable="false" />
+          <Property Name="cikistarihi" Type="date" Nullable="false" />
+          <Property Name="durum" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Rezervasyonlar_Müşteri">
+          <End Role="Müşteri" Type="Self.Müşteri" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Müşteri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="musteriid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Oda">
+          <End Role="Oda" Type="Self.Oda" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oda">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="odaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OtelDBModelStoreContainer">
+          <EntitySet Name="Müşteri" EntityType="Self.Müşteri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Oda" EntityType="Self.Oda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rezervasyonlar" EntityType="Self.Rezervasyonlar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Rezervasyonlar_Müşteri" Association="Self.FK_Rezervasyonlar_Müşteri">
+            <End Role="Müşteri" EntitySet="Müşteri" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Oda" Association="Self.FK_Rezervasyonlar_Oda">
+            <End Role="Oda" EntitySet="Oda" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OtelDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Müşteri">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tc_no" Type="Int32" Nullable="false" />
+          <Property Name="isim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="soyisim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tel_no" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rezervasyonlar" Relationship="Self.FK_Rezervasyonlar_Müşteri" FromRole="Müşteri" ToRole="Rezervasyonlar" />
+        </EntityType>
+        <EntityType Name="Oda">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipi" Type="Int32" Nullable="false" />
+          <Property Name="manzara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sigaraicilme" Type="Boolean" />
+          <Property Name="fiyat" Type="Int32" Nullable="false" />
+          <Property Name="odano" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rezervasyonlar" Relationship="Self.FK_Rezervasyonlar_Oda" FromRole="Oda" ToRole="Rezervasyonlar" />
+        </EntityType>
+        <EntityType Name="Rezervasyonlar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="odaid" Type="Int32" Nullable="false" />
+          <Property Name="musteriid" Type="Int32" Nullable="false" />
+          <Property Name="giristarihi" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="cikistarihi" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="durum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Müşteri" Relationship="Self.FK_Rezervasyonlar_Müşteri" FromRole="Rezervasyonlar" ToRole="Müşteri" />
+          <NavigationProperty Name="Oda" Relationship="Self.FK_Rezervasyonlar_Oda" FromRole="Rezervasyonlar" ToRole="Oda" />
+        </EntityType>
+        <Association Name="FK_Rezervasyonlar_Müşteri">
+          <End Role="Müşteri" Type="Self.Müşteri" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Müşteri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="musteriid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezervasyonlar_Oda">
+          <End Role="Oda" Type="Self.Oda" Multiplicity="1" />
+          <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Oda">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rezervasyonlar">
+              <PropertyRef Name="odaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OtelDBEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Müşteri" EntityType="Self.Müşteri" />
+          <EntitySet Name="Oda" EntityType="Self.Oda" />
+          <EntitySet Name="Rezervasyonlar" EntityType="Self.Rezervasyonlar" />
+          <AssociationSet Name="FK_Rezervasyonlar_Müşteri" Association="Self.FK_Rezervasyonlar_Müşteri">
+            <End Role="Müşteri" EntitySet="Müşteri" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezervasyonlar_Oda" Association="Self.FK_Rezervasyonlar_Oda">
+            <End Role="Oda" EntitySet="Oda" />
+            <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OtelDBModelStoreContainer" CdmEntityContainer="OtelDBEntities4">
+          <EntitySetMapping Name="Müşteri">
+            <EntityTypeMapping TypeName="OtelDBModel.Müşteri">
+              <MappingFragment StoreEntitySet="Müşteri">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tc_no" ColumnName="tc_no" />
+                <ScalarProperty Name="isim" ColumnName="isim" />
+                <ScalarProperty Name="soyisim" ColumnName="soyisim" />
+                <ScalarProperty Name="tel_no" ColumnName="tel_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Oda">
+            <EntityTypeMapping TypeName="OtelDBModel.Oda">
+              <MappingFragment StoreEntitySet="Oda">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tipi" ColumnName="tipi" />
+                <ScalarProperty Name="manzara" ColumnName="manzara" />
+                <ScalarProperty Name="sigaraicilme" ColumnName="sigaraicilme" />
+                <ScalarProperty Name="fiyat" ColumnName="fiyat" />
+                <ScalarProperty Name="odano" ColumnName="odano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rezervasyonlar">
+            <EntityTypeMapping TypeName="OtelDBModel.Rezervasyonlar">
+              <MappingFragment StoreEntitySet="Rezervasyonlar">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="odaid" ColumnName="odaid" />
+                <ScalarProperty Name="musteriid" ColumnName="musteriid" />
+                <ScalarProperty Name="giristarihi" ColumnName="giristarihi" />
+                <ScalarProperty Name="cikistarihi" ColumnName="cikistarihi" />
+                <ScalarProperty Name="durum" ColumnName="durum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

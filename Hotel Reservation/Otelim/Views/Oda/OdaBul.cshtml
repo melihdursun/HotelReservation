@@ -1,0 +1,41 @@
+﻿@model Otelim.Models.OdaBulFiltre
+
+
+
+@using (Html.BeginForm("OdaBul", "Oda", FormMethod.Post))
+{
+
+     <div class="form-group">
+      
+        @Html.LabelFor(m => m.Tipi)
+        @Html.TextBoxFor(m =>m.Tipi, new {@type="number" })
+        @Html.LabelFor(m=> m.GirisTarihi)
+        @Html.TextBoxFor(m=> m.GirisTarihi, "YYYY-MM-DD", new { @type = "date"  } )
+        @Html.LabelFor(m => m.CikisTarihi)
+        @Html.TextBoxFor(m => m.CikisTarihi, "YYYY-MM-DD" ,new { @type = "date" })
+                  
+        @Html.DropDownListFor(t=>t.OrderBy, new List<SelectListItem>()
+  {
+
+      new SelectListItem
+      {
+          Text="Fiyat (Azalan)",
+          Value="Azalan"
+      },
+        new SelectListItem
+      {
+          Text="Fiyat (Artan)",
+          Value="Artan"
+      }
+  })
+
+    </div>
+
+    <div style="color:red;">
+        @Html.ValidationSummary()
+
+    </div>
+
+ <button type="submit"   class="btn btn-success">Boş Oda Bul</button>  
+
+}

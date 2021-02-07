@@ -1,0 +1,29 @@
+﻿@model Otelim.Models.odaKayitFiltre
+
+@{
+    ViewBag.Title = "MusteriEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.oda.odano - @Model.oda.tipi @Model.oda.manzara Rezarvasyon</h2>
+@using (Html.BeginForm("YeniRezervasyon", "Oda", FormMethod.Post))
+{
+    <div class="form-group">
+    @Html.HiddenFor(m=> m.odaid)
+    @Html.LabelFor(m=> m.GirisTarihi)
+    @Html.TextBoxFor(m=> m.GirisTarihi, "YYYY-MM-DD", new { @type = "date" })
+    @Html.LabelFor(m=> m.CikisTarihi)
+    @Html.TextBoxFor(m=> m.CikisTarihi, "YYYY-MM-DD", new { @type = "date" })
+   
+    @Html.DropDownListFor(e=> e.musteriid, Model.Müşteriler.Select(t=>new SelectListItem
+{
+    Text = t.isim,
+    Value = $"{t.id}"
+}).ToArray())
+
+
+
+    </div>
+    <button type="submit" class="btn btn-success">Kaydet</button>
+}
+

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OtelDBModelStoreContainer" CdmEntityContainer="OtelDBEntities4">
+    <EntitySetMapping Name="Müşteri">
+      <EntityTypeMapping TypeName="OtelDBModel.Müşteri">
+        <MappingFragment StoreEntitySet="Müşteri">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="tc_no" ColumnName="tc_no" />
+          <ScalarProperty Name="isim" ColumnName="isim" />
+          <ScalarProperty Name="soyisim" ColumnName="soyisim" />
+          <ScalarProperty Name="tel_no" ColumnName="tel_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Oda">
+      <EntityTypeMapping TypeName="OtelDBModel.Oda">
+        <MappingFragment StoreEntitySet="Oda">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="tipi" ColumnName="tipi" />
+          <ScalarProperty Name="manzara" ColumnName="manzara" />
+          <ScalarProperty Name="sigaraicilme" ColumnName="sigaraicilme" />
+          <ScalarProperty Name="fiyat" ColumnName="fiyat" />
+          <ScalarProperty Name="odano" ColumnName="odano" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rezervasyonlar">
+      <EntityTypeMapping TypeName="OtelDBModel.Rezervasyonlar">
+        <MappingFragment StoreEntitySet="Rezervasyonlar">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="odaid" ColumnName="odaid" />
+          <ScalarProperty Name="musteriid" ColumnName="musteriid" />
+          <ScalarProperty Name="giristarihi" ColumnName="giristarihi" />
+          <ScalarProperty Name="cikistarihi" ColumnName="cikistarihi" />
+          <ScalarProperty Name="durum" ColumnName="durum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

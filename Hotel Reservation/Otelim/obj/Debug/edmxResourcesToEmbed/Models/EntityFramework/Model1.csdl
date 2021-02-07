@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OtelDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Müşteri">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tc_no" Type="Int32" Nullable="false" />
+    <Property Name="isim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="soyisim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="tel_no" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Rezervasyonlar" Relationship="Self.FK_Rezervasyonlar_Müşteri" FromRole="Müşteri" ToRole="Rezervasyonlar" />
+  </EntityType>
+  <EntityType Name="Oda">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tipi" Type="Int32" Nullable="false" />
+    <Property Name="manzara" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="sigaraicilme" Type="Boolean" />
+    <Property Name="fiyat" Type="Int32" Nullable="false" />
+    <Property Name="odano" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Rezervasyonlar" Relationship="Self.FK_Rezervasyonlar_Oda" FromRole="Oda" ToRole="Rezervasyonlar" />
+  </EntityType>
+  <EntityType Name="Rezervasyonlar">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="odaid" Type="Int32" Nullable="false" />
+    <Property Name="musteriid" Type="Int32" Nullable="false" />
+    <Property Name="giristarihi" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="cikistarihi" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="durum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Müşteri" Relationship="Self.FK_Rezervasyonlar_Müşteri" FromRole="Rezervasyonlar" ToRole="Müşteri" />
+    <NavigationProperty Name="Oda" Relationship="Self.FK_Rezervasyonlar_Oda" FromRole="Rezervasyonlar" ToRole="Oda" />
+  </EntityType>
+  <Association Name="FK_Rezervasyonlar_Müşteri">
+    <End Role="Müşteri" Type="Self.Müşteri" Multiplicity="1" />
+    <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Müşteri">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Rezervasyonlar">
+        <PropertyRef Name="musteriid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rezervasyonlar_Oda">
+    <End Role="Oda" Type="Self.Oda" Multiplicity="1" />
+    <End Role="Rezervasyonlar" Type="Self.Rezervasyonlar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Oda">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Rezervasyonlar">
+        <PropertyRef Name="odaid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OtelDBEntities4" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Müşteri" EntityType="Self.Müşteri" />
+    <EntitySet Name="Oda" EntityType="Self.Oda" />
+    <EntitySet Name="Rezervasyonlar" EntityType="Self.Rezervasyonlar" />
+    <AssociationSet Name="FK_Rezervasyonlar_Müşteri" Association="Self.FK_Rezervasyonlar_Müşteri">
+      <End Role="Müşteri" EntitySet="Müşteri" />
+      <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rezervasyonlar_Oda" Association="Self.FK_Rezervasyonlar_Oda">
+      <End Role="Oda" EntitySet="Oda" />
+      <End Role="Rezervasyonlar" EntitySet="Rezervasyonlar" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

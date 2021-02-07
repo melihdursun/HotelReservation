@@ -1,0 +1,63 @@
+﻿@using Otelim.Models.EntityFramework
+@model  List<Otelim.Controllers.OdaDto>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<a href="@Url.Action("Odabul","Oda")" >Odabul</a>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            
+            <th>Oda No</th>
+            <th>Tipi</th>
+            <th>Manzara</th>
+            <th>Sigara İçilme</th>
+            <th>Fiyat</th>
+            <th>Durum</th>
+            <th>Kalan Kişi</th>
+            <th>İşlemler</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var Oda in Model)
+        {
+            <tr>
+                
+                <td>@Oda.odano</td>
+                <td>@Oda.tipi</td>
+                <td>@Oda.manzara</td>
+                <td>@Oda.sigaraicilme</td>
+                <td>@Oda.fiyat</td>
+                <td>@Oda.durum</td>
+                <td>
+                    @if (Oda.durum == "BOŞ")
+                    {
+                        <span>Kalan Kişi Yok</span>
+                    }
+                    else
+                    {
+                        <span>@Oda.kalankisi</span>
+                    }
+                </td>
+                <td>
+                    @if(Oda.durum=="BOŞ")
+                    {
+                        <a href="@Url.Action("YeniRezervasyon","Oda",new { odaid=Oda.id})">Rezarvasyon Yap</a>
+                    }
+                    else
+                    {
+                        <span>İşlem Yapılamaz</span>
+                    }
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
